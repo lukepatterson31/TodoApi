@@ -9,6 +9,7 @@ using TodoApi.Models;
 
 namespace TodoApi.Controllers
 {
+    [Produces("application/json")]
     [Route("api/TodoItems")]
     [ApiController]
     public class TodoItemsController : ControllerBase
@@ -19,7 +20,11 @@ namespace TodoApi.Controllers
         {
             _context = context;
         }
-
+        
+        /// <summary>
+        /// Returns the list of TodoItems
+        /// </summary>
+        /// <returns></returns>
         // GET: api/TodoItems
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodoItems()
@@ -74,9 +79,29 @@ namespace TodoApi.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Creates a TodoItem
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST 
+        ///     {
+        ///         "id": 1,
+        ///         "name": "Item1",
+        ///         "isComplete": true
+        ///     }
+        ///     
+        /// </remarks>
+        /// <param name="todoItemDTO"></param>
+        /// <returns>A newly created todoItem</returns>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>            
         // POST: api/TodoItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<TodoItemDTO>> CreateTodoItem(TodoItemDTO todoItemDTO)
         {
             var todoItem = new TodoItem

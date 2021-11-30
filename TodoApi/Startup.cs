@@ -49,6 +49,10 @@ namespace TodoApi
                         Url = new Uri("https://example.com/license")
                     }
                 });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -60,8 +64,7 @@ namespace TodoApi
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseDefaultFiles();
-            //app.UseStaticFiles();
+            app.UseStaticFiles();
             
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
